@@ -48,10 +48,12 @@ RUN cd /root && . /root/.bash_profile && \
     cd llvm-7.0.0.obj && \
     cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DLLVM_ENABLE_PROJECTS=compiler-rt ../llvm-7.0.0.src && \
     make -j16 && \
-    make install && \
-    git clone https://github.com/SVF-tools/SVF && \
+    make install
+
+ENV LLVM_DIR=/root/llvm-7.0.0.obj
+RUN git clone https://github.com/SVF-tools/SVF SVF && \
     cd SVF && \
-    git checkout 0b75f3e0c10db04d65b6eafd91da5da9be71ecaa && \
+    git checkout -f 0b75f3e0c10db04d65b6eafd91da5da9be71ecaa && \
     sed -i '/set(CMAKE_CXX_FLAGS "-std=gnu++11 -O3 -fno-rtti")/c\\t\tset(CMAKE_CXX_FLAGS "-std=gnu++11 -O3 -fno-rtti -fPIC")' CMakeLists.txt && \
     sed -i '/set(CMAKE_CXX_FLAGS "-std=gnu++11 -O0 -fno-rtti")/c\\t\tset(CMAKE_CXX_FLAGS "-std=gnu++11 -O0 -fno-rtti -fPIC")' CMakeLists.txt && \
     sed -i '/set_target_properties(Cudd PROPERTIES COMPILE_FLAGS "-Wno-format -Wno-int-to-pointer-cast -Wno-pointer-to-int-cast -O3 -w -DHAVE_IEEE_754 -DSIZEOF_VOID_P=8 -DSIZEOF_LONG=8")/c\set_target_properties(Cudd PROPERTIES COMPILE_FLAGS "-Wno-format -Wno-int-to-pointer-cast -Wno-pointer-to-int-cast -O3 -w -DHAVE_IEEE_754 -DSIZEOF_VOID_P=8 -DSIZEOF_LONG=8 -fPIC")' lib/CUDD/CMakeLists.txt && \

@@ -44,7 +44,9 @@ docker run --rm --network=host -it ${IMAGE_ID} /bin/bash -l
 1. Clone coreutils repo and checkout tag `v8.25`
 
 ```
+cd /root
 git clone https://github.com/coreutils/coreutils.git
+cd coreutils
 git checkout tags/v8.25
 ```
 

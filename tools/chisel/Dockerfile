@@ -2,7 +2,10 @@
 
 FROM debian:buster
 
-RUN apt-get update && apt-get install -y software-properties-common wget gnupg time g++
+RUN sed -i 's|http://deb.debian.org/debian|http://archive.debian.org/debian|g' /etc/apt/sources.list && \
+    sed -i 's|http://security.debian.org/debian-security|http://archive.debian.org/debian-security|g' /etc/apt/sources.list && \
+    echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99no-check-valid-until && \
+     apt-get update && apt-get install -y software-properties-common wget gnupg time g++
 RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
 RUN apt-add-repository "deb http://apt.llvm.org/buster/ llvm-toolchain-buster-8 main" && apt-get update
 RUN apt-get install -y clang-8 libclang-8-dev llvm-8-dev cmake git wget
