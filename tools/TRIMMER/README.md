@@ -1,5 +1,9 @@
 ## TRIMMER
 
+### PLUS
+
+AddressSanitizer.cpp: instrumented asan with debug file
+
 ### Build Instructions
 
 Build the docker image using the local Dockerfile.
